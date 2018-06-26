@@ -15,7 +15,8 @@ def zipdir(path, ziph):
     for root, dirs, files in os.walk(path):
         for file in files:
             ziph.write(os.path.join(root, file))
-# This would print all the files and directories
+
+# Loop through the directory
 for file in dirs:
     path = image_dir + '/' + file
     if os.path.isdir( path ) == True:
@@ -27,19 +28,22 @@ for file in dirs:
 
 
 
+        # Check if the date
         if datetime_object.strftime( '%Y-%m-%d' ) < now_object.strftime( '%Y-%m-%d' ):
-            print datetime_object.strftime('%Y-%m-%d')
-            print now_object.strftime('%Y-%m-%d')
+            # print datetime_object.strftime('%Y-%m-%d')
+            # print now_object.strftime('%Y-%m-%d')
 
-
-            # newZip = zipfile.ZipFile('new.zip', 'w')
+            # Zip up the directory
             zippath = image_dir + '/' + datetime_object.strftime('%Y-%m-%d') + '.zip'
             zipf = zipfile.ZipFile( zippath , 'w', zipfile.ZIP_DEFLATED)
             zipdir( path , zipf)
             zipf.close()
 
+            # remove directory if the zip file exists
             if os.path.isfile(zippath) is True:
                 shutil.rmtree(image_dir + '/' + datetime_object.strftime('%Y-%m-%d'))
 
+                # Connect to NAS via smb
 
-                # print "\n"
+                # Check if the file exists on the NAS
+
