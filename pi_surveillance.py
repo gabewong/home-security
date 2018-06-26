@@ -92,6 +92,7 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 
 	# draw the text and timestamp on the frame
 	ts = timestamp.strftime("%A %d %B %Y %I:%M:%S%p")
+	filename_ts = timestamp.strftime("%Y-%m-%d %H-%M-%S-%f")
 	cv2.putText(frame, "Room Status: {}".format(text), (10, 20),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 	cv2.putText(frame, ts, (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX,
@@ -119,7 +120,10 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 					# upload the image to Dropbox and cleanup the tempory image
 					print("[UPLOAD] {}".format(ts))
 					path = "/{base_path}/{timestamp}.jpg".format(
-						base_path=conf["dropbox_base_path"]+'/'+directory, timestamp=ts)
+						base_path=conf["dropbox_base_path"]+'/'+directory, timestamp=filename_ts)
+
+
+
 					client.files_upload(open(t.path, "rb").read(), path)
 					t.cleanup()
 
