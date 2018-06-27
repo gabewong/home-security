@@ -2,6 +2,8 @@ import os
 import os.path
 from datetime import datetime
 import zipfile
+import ntpath
+
 import shutil
 
 
@@ -14,14 +16,14 @@ def zipdir(path, ziph):
     # ziph is zipfile handle
     for root, dirs, files in os.walk(path):
         for file in files:
-            ziph.write(os.path.join(root, file))
+            filename = os.path.join(root, file)
+            ziph.write(filename , ntpath.basename(filename) )
 
 # Loop through the directory
 for file in dirs:
     path = image_dir + '/' + file
     if os.path.isdir( path ) == True:
 
-        print path
 
         now_object = datetime.now()
         datetime_object = datetime.strptime( file , '%Y-%m-%d')
@@ -34,16 +36,18 @@ for file in dirs:
             # print now_object.strftime('%Y-%m-%d')
 
             # Zip up the directory
+            print "Zipping up " + path
             zippath = image_dir + '/' + datetime_object.strftime('%Y-%m-%d') + '.zip'
             zipf = zipfile.ZipFile( zippath , 'w', zipfile.ZIP_DEFLATED)
             zipdir( path , zipf)
             zipf.close()
 
             # remove directory if the zip file exists
-            if os.path.isfile(zippath) is True:
-                shutil.rmtree(image_dir + '/' + datetime_object.strftime('%Y-%m-%d'))
+            # if os.path.isfile(zippath) is True:
+                # shutil.rmtree(image_dir + '/' + datetime_object.strftime('%Y-%m-%d'))
 
                 # Connect to NAS via smb
 
                 # Check if the file exists on the NAS
+
 
