@@ -22,8 +22,8 @@ def zipdir(path, ziph):
 # Loop through the directory
 for file in dirs:
     path = image_dir + '/' + file
-    if os.path.isdir( path ) == True:
 
+    if os.path.isdir( path ) == True and len(file) == 10:
 
         now_object = datetime.now()
         datetime_object = datetime.strptime( file , '%Y-%m-%d')
@@ -43,8 +43,10 @@ for file in dirs:
             zipf.close()
 
             # remove directory if the zip file exists
-            # if os.path.isfile(zippath) is True:
-                # shutil.rmtree(image_dir + '/' + datetime_object.strftime('%Y-%m-%d'))
+            if os.path.isfile(zippath) is True:
+                zipped_dir = image_dir + '/' + datetime_object.strftime('%Y-%m-%d')
+                shutil.rmtree( zipped_dir )
+                print "Removed Directory: " + zipped_dir
 
                 # Connect to NAS via smb
 
